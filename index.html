@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - DOM & Event Handling Mastery</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="light">
+    <!-- Theme Toggle -->
+    <div class="theme-toggle-container">
+        <button class="theme-toggle" id="themeToggle" data-theme="light">
+            🌙 Dark Mode
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>📋 Task Manager Application</h1>
+            <p class="subtitle">Master DOM APIs, Event Handling & Browser Rendering Pipeline</p>
+        </header>
+
+        <!-- Task Input Section -->
+        <section class="input-section">
+            <h2>Create New Task</h2>
+            <form id="taskForm" class="task-form">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title</label>
+                    <input 
+                        type="text" 
+                        id="taskTitle" 
+                        placeholder="Enter task title..." 
+                        required
+                        value=""
+                    >
+                    <!-- Demonstration of Attributes vs Properties -->
+                    <small class="help-text">Note: input.value (property) vs input.getAttribute('value') (attribute) explained in console</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="taskCategory">Category</label>
+                    <select id="taskCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="health">Health</option>
+                        <option value="learning">Learning</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">+ Add Task</button>
+            </form>
+        </section>
+
+        <!-- Task Statistics -->
+        <section class="stats-section">
+            <div class="stat-card">
+                <h3>Total Tasks</h3>
+                <p class="stat-number" id="totalTasks">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Completed</h3>
+                <p class="stat-number" id="completedTasks">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Pending</h3>
+                <p class="stat-number" id="pendingTasks">0</p>
+            </div>
+        </section>
+
+        <!-- Filter & Search Section -->
+        <section class="filter-section">
+            <input 
+                type="text" 
+                id="searchInput" 
+                class="search-input" 
+                placeholder="🔍 Search tasks..."
+            >
+            <div class="category-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="work">Work</button>
+                <button class="filter-btn" data-filter="personal">Personal</button>
+                <button class="filter-btn" data-filter="shopping">Shopping</button>
+                <button class="filter-btn" data-filter="health">Health</button>
+                <button class="filter-btn" data-filter="learning">Learning</button>
+            </div>
+            <button class="btn btn-danger" id="clearAllBtn">Clear All Tasks</button>
+        </section>
+
+        <!-- Tasks Container (Event Delegation Demo) -->
+        <section class="tasks-section">
+            <h2>Your Tasks</h2>
+            <div class="tasks-container" id="tasksContainer">
+                <!-- Tasks will be dynamically added here -->
+                <div class="empty-state">
+                    <p>📭 No tasks yet. Create one to get started!</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Event Propagation Demo Section -->
+    <section class="event-propagation-section">
+        <div class="container">
+            <h2>🎯 Event Propagation Demonstration</h2>
+            <p class="section-subtitle">Click the button below to see Event Bubbling vs Event Capturing in action</p>
+            
+            <div class="propagation-demo">
+                <div class="demo-controls">
+                    <button class="btn btn-secondary" id="bubblingBtn">Show Bubbling</button>
+                    <button class="btn btn-secondary" id="capturingBtn">Show Capturing</button>
+                    <button class="btn btn-secondary" id="clearLogsBtn">Clear Logs</button>
+                </div>
+
+                <!-- Event Propagation Structure -->
+                <div class="propagation-structure">
+                    <h3>DOM Structure</h3>
+                    <pre><code>Grandparent
+└── Parent
+    └── Child Button</code></pre>
+                </div>
+
+                <!-- Grandparent Element -->
+                <div class="element grandparent" id="grandparent">
+                    <p>Grandparent</p>
+                    
+                    <!-- Parent Element -->
+                    <div class="element parent" id="parent">
+                        <p>Parent</p>
+                        
+                        <!-- Child Button -->
+                        <button class="btn btn-info element child" id="childBtn">Click Me!</button>
+                    </div>
+                </div>
+
+                <!-- Event Log -->
+                <div class="event-log">
+                    <h3>Event Execution Order Log:</h3>
+                    <ul id="eventLog">
+                        <li class="log-info">Logs will appear here when you click the button</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Explanation -->
+            <div class="explanation">
+                <h3>📚 Understanding Event Propagation</h3>
+                <div class="explanation-grid">
+                    <div class="explanation-card">
+                        <h4>🫧 Event Bubbling</h4>
+                        <p>Events start at the target element and bubble up through parent elements.</p>
+                        <p><strong>Order:</strong> Child → Parent → Grandparent</p>
+                        <p>This is the default behavior. Used with <code>addEventListener()</code></p>
+                    </div>
+                    <div class="explanation-card">
+                        <h4>⬆️ Event Capturing</h4>
+                        <p>Events start at the root and travel down to the target element.</p>
+                        <p><strong>Order:</strong> Grandparent → Parent → Child</p>
+                        <p>Enabled by passing <code>true</code> or <code>{capture: true}</code> as third argument</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Browser Rendering Pipeline Section -->
+    <section class="rendering-pipeline-section">
+        <div class="container">
+            <h2>🌐 Browser Rendering Pipeline</h2>
+            <p class="section-subtitle">How the browser converts HTML and CSS into pixels you see on screen</p>
+
+            <!-- Pipeline Visualization -->
+            <div class="pipeline-visualization">
+                <div class="pipeline-flow">
+                    <!-- HTML Stage -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box html-stage">
+                            <h3>1. HTML</h3>
+                            <p>Raw HTML Document</p>
+                        </div>
+                        <div class="arrow">↓</div>
+                    </div>
+
+                    <!-- Parsing Stage -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box parsing-stage">
+                            <h3>2. Parsing</h3>
+                            <p>Convert bytes to characters</p>
+                        </div>
+                        <div class="arrow">↓</div>
+                    </div>
+
+                    <!-- Tokenization Stage -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box tokenization-stage">
+                            <h3>3. Tokenization</h3>
+                            <p>Break into meaningful tokens</p>
+                        </div>
+                        <div class="arrow">↓</div>
+                    </div>
+
+                    <!-- DOM Tree Stage -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box dom-stage">
+                            <h3>4. DOM Tree</h3>
+                            <p>Tree of DOM nodes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CSS Pipeline -->
+                <div class="pipeline-flow">
+                    <!-- CSS Stage -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box css-stage">
+                            <h3>CSS</h3>
+                            <p>Style Sheets</p>
+                        </div>
+                        <div class="arrow">↓</div>
+                    </div>
+
+                    <!-- CSSOM Tree Stage -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box cssom-stage">
+                            <h3>CSSOM Tree</h3>
+                            <p>CSS Object Model</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Merge Stage -->
+                <div class="pipeline-flow">
+                    <div class="merge-indicator">
+                        <p>DOM Tree + CSSOM Tree</p>
+                        <div class="arrow">↓</div>
+                    </div>
+
+                    <!-- Render Tree -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box render-stage">
+                            <h3>5. Render Tree</h3>
+                            <p>Visible elements only</p>
+                        </div>
+                        <div class="arrow">↓</div>
+                    </div>
+
+                    <!-- Layout -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box layout-stage">
+                            <h3>6. Layout</h3>
+                            <p>Calculate positions & sizes</p>
+                        </div>
+                        <div class="arrow">↓</div>
+                    </div>
+
+                    <!-- Paint -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box paint-stage">
+                            <h3>7. Paint</h3>
+                            <p>Draw pixels to layers</p>
+                        </div>
+                        <div class="arrow">↓</div>
+                    </div>
+
+                    <!-- Composite -->
+                    <div class="pipeline-stage">
+                        <div class="stage-box composite-stage">
+                            <h3>8. Composite</h3>
+                            <p>Combine layers & display</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pipeline Details -->
+            <div class="pipeline-details">
+                <div class="detail-card">
+                    <h4>📄 HTML Parsing</h4>
+                    <p>The browser receives HTML as a stream of bytes and converts it into a tree of DOM nodes. This happens character by character.</p>
+                </div>
+                <div class="detail-card">
+                    <h4>🔍 Tokenization</h4>
+                    <p>The parser breaks the HTML into tokens (tags, attributes, content). Each token represents a meaningful unit of the document.</p>
+                </div>
+                <div class="detail-card">
+                    <h4>🌳 DOM Tree</h4>
+                    <p>Tokens are converted into a tree structure representing the document. Every element, text node, and comment becomes a node in the tree.</p>
+                </div>
+                <div class="detail-card">
+                    <h4>🎨 CSSOM Tree</h4>
+                    <p>CSS is parsed similarly to HTML, creating the CSS Object Model. This represents all styles applicable to each element.</p>
+                </div>
+                <div class="detail-card">
+                    <h4>✨ Render Tree</h4>
+                    <p>Combines DOM and CSSOM. Only includes visible elements (hidden elements, display:none, etc. are excluded).</p>
+                </div>
+                <div class="detail-card">
+                    <h4>📐 Layout (Reflow)</h4>
+                    <p>Browser calculates exact positions and sizes of all elements. Changes to dimensions or positions trigger a new layout pass.</p>
+                </div>
+                <div class="detail-card">
+                    <h4>🖌️ Paint (Rasterization)</h4>
+                    <p>Browser converts the render tree into pixels. Different elements may be painted to separate layers for optimization.</p>
+                </div>
+                <div class="detail-card">
+                    <h4>🎬 Compositing</h4>
+                    <p>All layers are combined and displayed to the screen. GPU acceleration can be used for composite operations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🚀 Built with Vanilla JavaScript, HTML & CSS | Master DOM APIs & Event Handling</p>
+    </footer>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
